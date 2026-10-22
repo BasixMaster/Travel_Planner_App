@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><script id="travelThemeInit">/* Run in <head> before styles to restore the user's explicit choice. */
+(()=>{
+ 'use strict';
+ if(window.TravelPlannerThemeInit)return;
+ const key='travel-planner-theme:v1';
+ let value='light';
+ try{if(window.localStorage.getItem(key)==='dark')value='dark'}catch{}
+ document.documentElement.dataset.theme=value;
+ window.TravelPlannerThemeInit={key,value};
+})();
+</script><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=travel_planner.html"><title>Travel Planner</title><style id="travelThemeStyles">/* Shared theme layer, embedded after the existing styles. Light remains the default.
+   Photos, raster tiles, provider iframes and geographic SVGs retain source colors. */
+.travelThemeToggle{flex:0 0 auto;align-self:center;white-space:nowrap;min-height:44px;padding:7px 11px;border:1px solid #809d94;border-radius:8px;background:#fffdf8;color:#173d41;font:600 12px/1.4 system-ui,sans-serif;cursor:pointer}
+.travelThemeToggle:hover{background:#e3f0ed;color:#173d41}
+.travelThemeToggle:focus-visible{outline:3px solid #8a5c00;outline-offset:3px}
+html[data-theme=light]{color-scheme:light}
+html[data-theme=dark]{color-scheme:dark;--ink:#e5eeeb;--muted:#b2c4bf;--paper:#142526;--teal:#88ded6;--orange:#ffbc8e;--gold:#efce7d;--line:#54716d;--theme-surface:#1c3233;--theme-raised:#294342;--theme-focus:#ffda85}
+html[data-theme=dark] body{background:var(--paper);color:var(--ink)}
+html[data-theme=dark] :is(body>header,main>aside,.intro,.legs,.desktopSearchBox,#detail .locationTitle,#detail .locationContext,.weatherPageForecast){background:var(--paper);color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] :is(header p,.eyebrow,.note,.credit,.dates,.summary,.version,.count,.headerNote,.folderHint,.locationDates p,.locationSummary,.recPreview,.planPreferences p,.planningInputs p,.wxChartKey,.wxForecastNote small,.wxForecastNote .note,.phonePreviewDates,.phoneTouchHint,figcaption,.leg span){color:var(--muted)}
+html[data-theme=dark] :is(#detail .locationDates p,#detail .locationSummary,.planPreferences p,.planningInputs p,.wxDiagram .wxChartKey,.wxForecastNote .note,.wxForecastNote small){color:var(--muted)}
+html[data-theme=dark] a{color:var(--teal)}
+html[data-theme=dark] :is(.brand,h2 a){color:var(--ink)}
+html[data-theme=dark] :is(a:hover,.travelPlanReturn){color:var(--teal)}
+html[data-theme=dark] :is(button,input,select,textarea){background:var(--theme-surface)!important;color:var(--ink)!important;border-color:var(--line)!important}
+html[data-theme=dark] :is(input,textarea)::placeholder{color:var(--muted);opacity:1}
+html[data-theme=dark] :is(input[type=checkbox],input[type=radio]){accent-color:#88ded6}
+html[data-theme=dark] :is(button:hover,button:focus-visible){background:var(--theme-raised)!important;color:var(--ink)!important}
+html[data-theme=dark] :is(button[aria-pressed=true],button[aria-selected=true],.primary,.openPlan.primary,.phonePreviewActions button:first-child){background:#88ded6!important;color:#102d30!important;border-color:#88ded6!important}
+html[data-theme=dark] :is(button[aria-pressed=true]:hover,button[aria-selected=true]:hover,.primary:hover){background:#b3eee7!important;color:#102d30!important}
+html[data-theme=dark] button:disabled{color:#b2c4bf!important;background:#243737!important;border-style:dashed}
+html[data-theme=dark] :is(button,a,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid var(--theme-focus);outline-offset:3px}
+html[data-theme=dark] :is(dialog,.tripCard,.folderPanel,.practical,.planPreferences,.planningInputs,.compactGuideSection,#recommendedPlan,.wxDiagram,.wxForecastNote,.phonePlacePreview,.phoneTools,.phoneSearchTools,.phonePlan,.phoneNav,.legend,.miniHover,#regionalView,#regionalViewBody){background:var(--theme-surface);color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] :is(#offlineInstallerCard,.dropOver){background:var(--theme-raised)!important;color:var(--ink)!important;border-color:var(--line)!important}
+html[data-theme=dark] :is(.badge,.testBadge,.planBadge,.photoUnavailable,.emptyPhoto){background:var(--theme-raised);color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] :is(.compactGuideSection>summary,.phonePlan>summary,.phonePreviewExtended a){color:var(--ink)}
+html[data-theme=dark] :is(.stay,.miniPlaces li,.cardActions,.repoResults,fieldset,hr,.documentationSources article,.regionalLegend){border-color:var(--line)}
+html[data-theme=dark] :is(.surfTable,.wxTable,#comparison table,.specialistTable,#recommendedPlan table) :is(td,th){border-color:var(--line)}
+html[data-theme=dark] :is(.surfTable thead,.wxTable th){background:var(--theme-raised);color:var(--ink)}
+html[data-theme=dark] :is(.surf-g,.surf-a,.surf-r,.surf-u,.wxMissing,.wxRainHigh,.wxRainPossible){color:#193d43}
+html[data-theme=dark] .surf-g{background:#daefde;color:#194a2a}
+html[data-theme=dark] :is(.surf-a,.wxRainPossible){background:#fff0c8;color:#68470b}
+html[data-theme=dark] :is(.surf-r,.wxRainHigh){background:#f9dcd8;color:#7b201a}
+html[data-theme=dark] :is(.surf-u,.wxMissing){background:#e8ecee;color:#4e5c66}
+html[data-theme=dark] :is(.surf-g,.surf-a,.surf-r,.surf-u,.wxMissing,.wxRainHigh,.wxRainPossible) .note{color:#405c60}
+html[data-theme=dark] :is(.surf-g,.surf-a,.surf-r,.surf-u,.wxMissing,.wxRainHigh,.wxRainPossible) a{color:#075d63}
+html[data-theme=dark] .favoriteStar{color:#efce7d!important;background:transparent!important}
+html[data-theme=dark] :is(.cover,.hotelPhotos button,.activityThumb,.planningThumb){background:var(--theme-raised)}
+html[data-theme=dark] .coverFallback{background:linear-gradient(140deg,#294342,#142526);color:var(--ink)}
+html[data-theme=dark] :is(.skipGuide,.skipLibrary){background:var(--theme-surface);color:var(--teal)}
+html[data-theme=dark] dialog::backdrop{background:#061617cc}
+html[data-theme=dark] #tip{background:#102d30;color:#e5eeeb;border:1px solid var(--line)}
+html[data-theme=dark] :is(#tip figcaption,#tip .note){color:#b2c4bf}
+/* Access cards intentionally remain light even inside a dark preview. Pair every
+   inherited foreground explicitly, including the nested muted notes and links. */
+html[data-theme=dark] .pointAccess,html[data-theme=dark] #tip .pointAccess,html[data-theme=dark] .miniHover .pointAccess,html[data-theme=dark] .phonePreviewExtended .pointAccess{background:#eef6f5;color:#193d43}
+html[data-theme=dark] .pointAccess .note,html[data-theme=dark] #tip .pointAccess .note,html[data-theme=dark] .pointAccess figcaption{color:#405c60}
+html[data-theme=dark] .pointAccess a,html[data-theme=dark] .pointAccess a:visited{color:#075d63}
+/* The geographic canvas stays light to preserve existing route/marker contrast. */
+html[data-theme=dark] :is(#mainBaseStatus,.mainBaseCredit,.north){background:#1c3233;color:#e5eeeb;border-radius:4px}
+html[data-theme=dark] .mainBaseCredit a{color:#88ded6}
+html[data-theme=dark] .wxDiagram svg{color:var(--ink)}
+html[data-theme=dark] .wxDiagram .wxAxisLabel{fill:#b2c4bf}
+html[data-theme=dark] .wxDiagram .wxGrid{stroke:#54716d}
+html[data-theme=dark] .wxDiagram .wxHigh{stroke:#ffbc8e}
+html[data-theme=dark] :is(.wxDiagram .wxLow,.wxDiagram .wxWind){stroke:#88ded6}
+html[data-theme=dark] .wxDiagram .wxGust{stroke:#d3b8ef}
+html[data-theme=dark] .wxDiagram .wxRain{fill:#a9ceef}
+/* More specific than the existing phone surface overrides. */
+html[data-theme=dark][data-layout=mobile] :is(body>header,.phoneNav,.phoneTools,.phoneSearchTools,.phonePlan,.phonePlacePreview,#detail .locationTitle){background:var(--theme-surface);color:var(--ink);border-color:var(--line)}
+html[data-theme=dark][data-layout=mobile] :is(.phonePlan>summary,.phonePreviewDates,.phoneTouchHint){color:var(--muted)}
+html[data-layout=mobile] body>header .travelThemeToggle{display:block;margin:6px 0 0 auto;min-height:44px}
+@media(max-width:760px){body>header{flex-wrap:wrap;gap:10px}.travelThemeToggle{margin-left:auto}}
+@media(forced-colors:active){html[data-theme] :is(button,a,input,select,textarea,summary,[tabindex]):focus-visible{outline-color:Highlight}}
+</style></head><body><a href="travel_planner.html">Open Travel Planner</a></body></html>
