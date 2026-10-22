@@ -39,6 +39,14 @@ class PackageTest(unittest.TestCase):
             self.assertFalse(build_package(root)['changed'])
             self.assertEqual(stamp, archive.stat().st_mtime_ns)
             build_package(root, check=True)
+            with zipfile.ZipFile(archive) as source:
+                content = {name: source.read(name) for name in source.namelist()}
+            with zipfile.ZipFile(archive, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=1) as alternate:
+                for name, data in content.items():
+                    alternate.writestr(name, data)
+            alternate_bytes = archive.read_bytes()
+            self.assertFalse(build_package(root)['changed'], 'Equivalent compression must not churn the ZIP')
+            self.assertEqual(archive.read_bytes(), alternate_bytes)
             with zipfile.ZipFile(archive) as z:
                 self.assertIsNone(z.testzip())
                 self.assertEqual(len(z.namelist()), 9)

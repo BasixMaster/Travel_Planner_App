@@ -99,6 +99,19 @@ def build_package(root, output=None, check=False):
             info.compress_type = zipfile.ZIP_DEFLATED
             archive.writestr(info, data, compresslevel=9)
     content = stream.getvalue()
+    # Compare actual entries too: different zlib versions need not rewrite a
+    # byte-valid existing release whose logical files have not changed.
+    if output.is_file():
+        try:
+            with zipfile.ZipFile(output) as previous:
+                expected = {'Travel_Planner_App/' + name: data for name, data in entries.items()}
+                if (set(previous.namelist()) == set(expected)
+                        and len(previous.infolist()) == len(expected)
+                        and all(item.compress_type == zipfile.ZIP_DEFLATED for item in previous.infolist())
+                        and all(previous.read(name) == data for name, data in expected.items())):
+                    content = output.read_bytes()
+        except (OSError, ValueError, zipfile.BadZipFile, RuntimeError, NotImplementedError):
+            pass
     checksum = hashlib.sha256(content).hexdigest() + '  ' + output.name + '\n'
     sidecar = output.with_suffix('.zip.sha256')
     changed = not output.exists() or output.read_bytes() != content
