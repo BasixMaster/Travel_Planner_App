@@ -359,7 +359,7 @@ q('#tripSort').onchange=()=>{try{localStorage.setItem(orgSortKey,q('#tripSort').
  // Blob plans have an opaque origin: browsers may reject a direct file:// home link.
  // Return through the known same-tab library history entry instead of crossing origins.
  function storedPlanReturn(page){
-  const script='<script id="travelPlannerLibraryReturn">(function(){const entered=history.length;document.addEventListener("click",function(event){const link=event.target.closest?.("#plannerHomeLink");if(!link||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||event.button>0)return;event.preventDefault();event.stopImmediatePropagation();history.go(-Math.max(1,history.length-entered+1))},true)})();<\/script>';
+  const script='<script id="travelPlannerLibraryReturn">(function(){const entered=history.length;document.addEventListener("click",function(event){const link=event.target.closest?.("#plannerHomeLink, .guideLibraryLink");if(!link||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||event.button>0)return;event.preventDefault();event.stopImmediatePropagation();history.go(-Math.max(1,history.length-entered+1))},true)})();<\/script>';
   return page.includes('<script id="travelThemeController">/* Shared standalone-page controller. Storage may be denied for file:// pages. */
 (()=>{
  'use strict';
