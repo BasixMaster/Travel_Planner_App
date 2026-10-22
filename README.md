@@ -8,14 +8,14 @@ Share this HTTPS link to use the app on Windows, Linux, macOS, Android or iOS. N
 
 ## Access private plans
 
-Owner-approved access is configured separately. The repository token stays on the server; no encrypted token or access envelope is included in this public app. The access flow remains unavailable until its backend endpoint is configured.
+Browser-key access requests are reviewed in [the owner dashboard](owner.html), the primary management interface. Owners can alternatively approve through Codex and the private Manage access GitHub workflow. GitHub Actions publishes encrypted plans for approved browser keys; no repository token is delivered to visitors. Sharing requires one-time private workflow secret configuration before approval publication can succeed.
 
-A Request access by email button unlocks an encrypted contact address with the shared download password. It prepares a draft in the visitor's email app for manual review; sending it does not unlock downloads. The email contact envelope contains no repository token. Unlocked addresses can be read or shared.
+A Request access by email button unlocks an encrypted contact address with the shared download password. It prepares a draft with the visitor's public browser key and an owner-review link; sending it does not unlock downloads. The email contact envelope contains no repository token. Unlocked addresses can be read or shared.
 
-No itineraries, plaintext passwords or plaintext tokens belong in this public repository. Downloads stay in this browser profile, not an ordinary local plans folder.
+No plaintext itineraries, passwords or tokens belong in this public repository. Downloads stay in this browser profile, not an ordinary local plans folder.
 
 Download before travelling and keep large downloads foregrounded. On iOS, complete setup inside the Safari or installed Home Screen instance you intend to use. Clearing browser data or storage eviction can remove saved plans; live map detail and weather need internet.
 
 ## Maintenance
 
-Render the empty shell with the private source skill scripts/app_release.py and validate it with scripts/app_release_test.py plus overview, inline HTML and browser-sync checks. Publish only the six reviewed runtime files and this README. Preserve private/public boundaries and verify Pages after release.
+Render the empty shell with the private source skill scripts/app_release.py and validate it with scripts/app_release_test.py plus overview, inline HTML and browser-sync checks. Publish only the reviewed reviewed runtime files and this README. Preserve private/public boundaries and verify Pages after release.
