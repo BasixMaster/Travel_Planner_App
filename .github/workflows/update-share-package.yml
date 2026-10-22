@@ -1,0 +1,37 @@
+name: Refresh app sharing package
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*.html'
+      - '*.js'
+      - '*.svg'
+      - '*.webmanifest'
+      - 'tools/app_package*.py'
+      - '.github/workflows/update-share-package.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: share-package-main
+  cancel-in-progress: false
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Test public boundary and build current package
+        run: |
+          python3 tools/app_package_test.py
+          python3 tools/app_package.py --app-root .
+          python3 tools/app_package.py --app-root . --check
+      - name: Commit only a changed package
+        run: |
+          git add -- downloads/Travel_Planner_App.zip downloads/Travel_Planner_App.zip.sha256
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Refresh app sharing ZIP'
+          git push origin HEAD:main
