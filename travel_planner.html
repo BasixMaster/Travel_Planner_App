@@ -360,51 +360,7 @@ q('#tripSort').onchange=()=>{try{localStorage.setItem(orgSortKey,q('#tripSort').
  // Return through the known same-tab library history entry instead of crossing origins.
  function storedPlanReturn(page){
   const script='<script id="travelPlannerLibraryReturn">(function(){const entered=history.length;document.addEventListener("click",function(event){const link=event.target.closest?.("#plannerHomeLink, .guideLibraryLink");if(!link||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||event.button>0)return;event.preventDefault();event.stopImmediatePropagation();history.go(-Math.max(1,history.length-entered+1))},true)})();<\/script>';
-  return page.includes('<script id="travelThemeController">/* Shared standalone-page controller. Storage may be denied for file:// pages. */
-(()=>{
- 'use strict';
- if(window.TravelPlannerTheme){if(document.readyState!=='loading')window.TravelPlannerTheme.init();return}
- const root=document.documentElement,key='travel-planner-theme:v1';
- let value=root.dataset.theme==='dark'?'dark':'light',button=null;
- function updateButton(){
-  if(!button)return;
-  const dark=value==='dark',action=dark?'Switch to light mode':'Switch to dark mode';
-  button.textContent=dark?'Light mode':'Dark mode';
-  button.title=action;
-  button.setAttribute('aria-label',action);
-  button.setAttribute('aria-pressed',String(dark));
- }
- function set(next,persist=true){
-  value=next==='dark'?'dark':'light';
-  root.dataset.theme=value;
-  if(window.TravelPlannerThemeInit)window.TravelPlannerThemeInit.value=value;
-  if(persist){try{window.localStorage.setItem(key,value)}catch{}}
-  updateButton();
-  return value;
- }
- function init(){
-  const header=document.querySelector('body > header');
-  if(!header)return;
-  button=document.getElementById('travelThemeToggle');
-  if(!button){
-   button=document.createElement('button');
-   button.id='travelThemeToggle';button.type='button';button.className='travelThemeToggle';
-   header.appendChild(button);
-  }
-  if(!button.dataset.themeBound){
-   button.addEventListener('click',()=>set(value==='dark'?'light':'dark'));
-   button.dataset.themeBound='true';
-  }
-  updateButton();
- }
- window.TravelPlannerTheme={init,set,get:()=>value};
- window.addEventListener('storage',event=>{
-  if(event.key===key||event.key===null)set(event.newValue==='dark'?'dark':'light',false);
- });
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
- else init();
-})();
-</script></body>')?page.replace('</body>',script+'</body>'):page+script;
+  const close='<'+'/body>';return page.includes(close)?page.replace(close,script+close):page+script;
  }
  async function openStored(path,layout){
   const row=await store.read(path);if(!row)throw Error('This plan is not downloaded yet. Use Download / update plans first.');
@@ -448,5 +404,49 @@ q('#tripSort').onchange=()=>{try{localStorage.setItem(orgSortKey,q('#tripSort').
  $('githubAccessFile').onchange=async e=>{try{const f=e.target.files[0];if(!f||f.size>20000)throw Error('Choose the small encrypted access-bundle JSON file.');const data=JSON.parse(await f.text());if(data.version!==1||typeof data.vault!=='string'||data.vault.length>10000||!/^[A-Za-z0-9+/=]+$/.test(data.vault))throw Error('This is not a supported encrypted access bundle.');vault=data.vault;const db=await store.openDB();await new Promise((resolve,reject)=>{const tx=db.transaction('state','readwrite');tx.objectStore('state').put(vault,'access');tx.oncomplete=()=>{db.close();resolve()};tx.onabort=()=>reject(tx.error)});$('githubAccessSetup').hidden=true;status('Access bundle saved on this device. Enter your download password.')}catch(e){status(e.message)}};
  if(location.protocol==='https:'&&'serviceWorker'in navigator)navigator.serviceWorker.register('travel-planner-sw.js').catch(()=>{$('githubUpdateSummary').textContent='HTTPS offline support could not start. Keep this page open or retry online.'});
  refresh().then(()=>{const params=new URLSearchParams(location.search),path=params.get('offlinePlan');if(path&&/^plans\/[a-z0-9][a-z0-9-]{0,100}\/index\.html$/.test(path)){const clean=new URL(location.href);clean.searchParams.delete('offlinePlan');history.replaceState(history.state,'',clean.href);return openStored(path,params.get('layout')==='mobile'?'mobile':'desktop')}}).catch(()=>{$('githubUpdateSummary').textContent='Browser storage unavailable here. Use the HTTPS app in a normal browser window.'});
+})();
+</script><script id="travelThemeController">/* Shared standalone-page controller. Storage may be denied for file:// pages. */
+(()=>{
+ 'use strict';
+ if(window.TravelPlannerTheme){if(document.readyState!=='loading')window.TravelPlannerTheme.init();return}
+ const root=document.documentElement,key='travel-planner-theme:v1';
+ let value=root.dataset.theme==='dark'?'dark':'light',button=null;
+ function updateButton(){
+  if(!button)return;
+  const dark=value==='dark',action=dark?'Switch to light mode':'Switch to dark mode';
+  button.textContent=dark?'Light mode':'Dark mode';
+  button.title=action;
+  button.setAttribute('aria-label',action);
+  button.setAttribute('aria-pressed',String(dark));
+ }
+ function set(next,persist=true){
+  value=next==='dark'?'dark':'light';
+  root.dataset.theme=value;
+  if(window.TravelPlannerThemeInit)window.TravelPlannerThemeInit.value=value;
+  if(persist){try{window.localStorage.setItem(key,value)}catch{}}
+  updateButton();
+  return value;
+ }
+ function init(){
+  const header=document.querySelector('body > header');
+  if(!header)return;
+  button=document.getElementById('travelThemeToggle');
+  if(!button){
+   button=document.createElement('button');
+   button.id='travelThemeToggle';button.type='button';button.className='travelThemeToggle';
+   header.appendChild(button);
+  }
+  if(!button.dataset.themeBound){
+   button.addEventListener('click',()=>set(value==='dark'?'light':'dark'));
+   button.dataset.themeBound='true';
+  }
+  updateButton();
+ }
+ window.TravelPlannerTheme={init,set,get:()=>value};
+ window.addEventListener('storage',event=>{
+  if(event.key===key||event.key===null)set(event.newValue==='dark'?'dark':'light',false);
+ });
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+ else init();
 })();
 </script></body></html>
